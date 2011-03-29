@@ -54,7 +54,7 @@ module Pacer
           while raw_element = starts.next
             value = sidelineValue(raw_element)
             unless @filter.contains? value.to_s
-              @filter.add(value) if @accumulate
+              @filter.add(value.to_s) if @accumulate and value
               return raw_element
             end
           end

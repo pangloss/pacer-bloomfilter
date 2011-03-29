@@ -5,7 +5,7 @@ module Pacer
         chain_route :filter => :bloom,
           :false_pos_prob => false_pos_prob,
           :expected_count => expected_count,
-          :filter => opts[:filter],
+          :bloomfilter => opts[:bloomfilter],
           :block => block
       end
     end
@@ -13,7 +13,7 @@ module Pacer
 
   module Filter
     module BloomFilter
-      attr_accessor :false_pos_prob, :expected_count, :block, :filter
+      attr_accessor :false_pos_prob, :expected_count, :block, :bloomfilter
 
       def uniq
         @except ||= []
@@ -53,7 +53,7 @@ module Pacer
       end
 
       def prepare_pipe(bfp, all_items, pipe)
-        bfp.filter = filter if filter
+        bfp.bloomfilter = bloomfilter if bloomfilter
         all_items.each do |items|
           if items.is_a? Enumerable
             bfp.addAll items
@@ -61,7 +61,7 @@ module Pacer
             bfp.addAll [items]
           end
         end
-        bfp.setStarts pipe
+        bfp.setStarts pipe if pipe
         bfp
       end
 

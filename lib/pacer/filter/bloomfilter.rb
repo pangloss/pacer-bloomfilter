@@ -41,6 +41,8 @@ module Pacer
         pipe
       end
 
+    private
+
       def except_pipe(pipe)
         bfp = Pacer::Pipes::BloomFilter::RejectPipe.new false_pos_prob, expected_count, sideline_pipe
         bfp.accumulate if @uniq
